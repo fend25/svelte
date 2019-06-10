@@ -49,6 +49,8 @@ function create_fragment(ctx) {
 
 			audio.volume = ctx.volume;
 
+			audio.muted = !!ctx.muted;
+
 			audio.playbackRate = ctx.playbackRate;
 		},
 
@@ -56,6 +58,7 @@ function create_fragment(ctx) {
 			if (!audio_updating && changed.currentTime && !isNaN(ctx.currentTime)) audio.currentTime = ctx.currentTime;
 			if (changed.paused && audio_is_paused !== (audio_is_paused = ctx.paused)) audio[audio_is_paused ? "pause" : "play"]();
 			if (changed.volume && !isNaN(ctx.volume)) audio.volume = ctx.volume;
+			if (changed.muted) audio.muted = !!ctx.muted;
 			if (changed.playbackRate && !isNaN(ctx.playbackRate)) audio.playbackRate = ctx.playbackRate;
 			audio_updating = false;
 		},
@@ -74,7 +77,7 @@ function create_fragment(ctx) {
 }
 
 function instance($$self, $$props, $$invalidate) {
-	let { buffered, seekable, played, currentTime, duration, paused, volume, playbackRate } = $$props;
+	let { buffered, seekable, played, currentTime, duration, paused, volume, muted, playbackRate } = $$props;
 
 	function audio_timeupdate_handler() {
 		played = time_ranges_to_array(this.played);
@@ -107,7 +110,9 @@ function instance($$self, $$props, $$invalidate) {
 
 	function audio_volumechange_handler() {
 		volume = this.volume;
+		muted = this.muted;
 		$$invalidate('volume', volume);
+		$$invalidate('muted', muted);
 	}
 
 	function audio_ratechange_handler() {
@@ -123,6 +128,7 @@ function instance($$self, $$props, $$invalidate) {
 		if ('duration' in $$props) $$invalidate('duration', duration = $$props.duration);
 		if ('paused' in $$props) $$invalidate('paused', paused = $$props.paused);
 		if ('volume' in $$props) $$invalidate('volume', volume = $$props.volume);
+		if ('muted' in $$props) $$invalidate('muted', muted = $$props.muted);
 		if ('playbackRate' in $$props) $$invalidate('playbackRate', playbackRate = $$props.playbackRate);
 	};
 
@@ -134,6 +140,7 @@ function instance($$self, $$props, $$invalidate) {
 		duration,
 		paused,
 		volume,
+		muted,
 		playbackRate,
 		audio_timeupdate_handler,
 		audio_durationchange_handler,
@@ -148,7 +155,7 @@ function instance($$self, $$props, $$invalidate) {
 class Component extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, instance, create_fragment, safe_not_equal, ["buffered", "seekable", "played", "currentTime", "duration", "paused", "volume", "playbackRate"]);
+		init(this, options, instance, create_fragment, safe_not_equal, ["buffered", "seekable", "played", "currentTime", "duration", "paused", "volume", "muted", "playbackRate"]);
 	}
 }
 

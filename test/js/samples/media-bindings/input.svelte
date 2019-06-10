@@ -6,7 +6,8 @@
 	export let duration;
 	export let paused;
 	export let volume;
+	export let muted;
 	export let playbackRate;
 </script>
 
-<audio bind:buffered bind:seekable bind:played bind:currentTime bind:duration bind:paused bind:volume bind:playbackRate/>
+<audio bind:buffered bind:seekable bind:played bind:currentTime bind:duration bind:paused bind:volume bind:muted bind:playbackRate/>

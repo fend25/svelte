@@ -86,7 +86,7 @@ const events = [
 		event_names: ['volumechange'],
 		filter: (node: Element, name: string) =>
 			node.is_media_node() &&
-			name === 'volume'
+			(name === 'volume' || name === 'muted')
 	},
 	{
 		event_names: ['ratechange'],

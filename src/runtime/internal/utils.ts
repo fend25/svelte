@@ -87,7 +87,7 @@ export function once(fn) {
 		if (ran) return;
 		ran = true;
 		fn.call(this, ...args);
-	}
+	};
 }
 
 const is_client = typeof window !== 'undefined';

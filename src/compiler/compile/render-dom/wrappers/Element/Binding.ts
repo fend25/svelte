@@ -138,6 +138,10 @@ export default class BindingWrapper {
 			case 'volume':
 				update_conditions.push(`!isNaN(${this.snippet})`);
 				break;
+				
+			case 'muted':
+				update_dom = `${parent.var}.${this.node.name} = !!${this.snippet};`;
+				break;
 
 			case 'paused':
 			{
